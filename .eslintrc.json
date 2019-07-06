@@ -32,7 +32,8 @@
     "react-native/no-raw-text": "off",
     "linebreak-style": "off",
     "arrow-body-style":"off",
-    "react/jsx-curly-spacing": "off"
+    "react/jsx-curly-spacing": "off",
+    "template-curly-spacing": "off"
   },
   "settings": {
     "import/resolver": {
