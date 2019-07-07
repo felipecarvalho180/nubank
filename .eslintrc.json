@@ -33,7 +33,8 @@
     "linebreak-style": "off",
     "arrow-body-style":"off",
     "react/jsx-curly-spacing": "off",
-    "template-curly-spacing": "off"
+    "template-curly-spacing": "off",
+    "react/prop-types": "off",
   },
   "settings": {
     "import/resolver": {

@@ -1,42 +1,78 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Animated } from 'react-native';
+import { PanGestureHandler, State } from 'react-native-gesture-handler';
 
 import Header from '~/components/Header/Header';
 import Tabs from '~/components/Tabs/Tabs';
 import Menu from '~/components/Menu/Menu';
 
 const Main = () => {
+  const translateY = new Animated.Value(0);
+
+  const animatedEvent = Animated.event(
+    [
+      {
+        nativeEvent: {
+          translationY: translateY,
+        },
+      },
+    ],
+    { useNativeDriver: true },
+  );
+
+  const handleStateChange = (event) => {
+
+  };
+
   return (
     <Wrapper>
 
       <Header />
 
       <ContentWrapper>
-        <Menu />
+        <Menu translateY={ translateY } />
 
-        <Card>
-          <CardHeader>
-            <CashIcon />
-            <VisibleIcon />
-          </CardHeader>
-          <CardContent>
-            <Title>Saldo disponivel</Title>
-            <Description>R$ 526.915,32</Description>
-          </CardContent>
-          <CardFooter>
-            <Annotation>
-              Transferencia de R$20,00 recebida de Felipe Carvalho.
-            </Annotation>
-          </CardFooter>
-        </Card>
+        <PanGestureHandler
+          onGestureEvent={ animatedEvent }
+          onHandlerStateChange={ handleStateChange }
+        >
+          <Card
+            style={{
+              transform: [{
+                translateY: translateY.interpolate({
+                  inputRange: [-350, 0, 380],
+                  outputRange: [-50, 0, 380],
+                  extrapolate: 'clamp',
+                }),
+              }],
+            }}
+          >
+            <CardHeader>
+              <CashIcon />
+              <VisibleIcon />
+            </CardHeader>
+            <CardContent>
+              <Title>Saldo disponivel</Title>
+              <Description>R$ 526.915,32</Description>
+            </CardContent>
+            <CardFooter>
+              <Annotation>
+                Transferencia de R$20,00 recebida de Felipe Carvalho.
+              </Annotation>
+            </CardFooter>
+          </Card>
+
+        </PanGestureHandler>
+
       </ContentWrapper>
 
       <Tabs />
 
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.View`
   background-color: #8B10AE;
@@ -51,7 +87,7 @@ const ContentWrapper = styled.View`
   margin-bottom: 20px;
 `;
 
-const Card = styled.View`
+const Card = styled(Animated.View)`
   flex: 1;
   background: #fff;
   border-radius: 4px;
