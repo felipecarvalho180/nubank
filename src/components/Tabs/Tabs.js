@@ -1,10 +1,26 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { Animated } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const Tabs = () => {
+const Tabs = ({ translateY }) => {
   return (
-    <Wrapper>
+    <Wrapper
+      style={{
+        transform: [{
+          translateY: translateY.interpolate({
+            inputRange: [ 0, 380],
+            outputRange: [ 0, 30],
+            extrapolate: 'clamp',
+          })
+        }],
+        opacity: translateY.interpolate({
+          inputRange: [ 0, 380],
+          outputRange: [ 1, 0.3],
+          extrapolate: 'clamp',
+        }),
+      }}
+    >
       <TabsContainer>
         <TabItem>
           <InviteFriendsIcon />
@@ -31,7 +47,7 @@ const Tabs = () => {
   );
 };
 
-const Wrapper = styled.View`
+const Wrapper = styled(Animated.View)`
   height: 100px;
   margin-bottom: 20px;
 `;
